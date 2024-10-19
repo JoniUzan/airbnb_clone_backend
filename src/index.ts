@@ -21,7 +21,7 @@ const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
     origin: "*", // Adjust this for production to the correct origin
-    methods: ["GET", "POST", "PATCH"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   },
 });
 
@@ -33,7 +33,12 @@ async function main() {
 
   // Middleware
   app.use(express.json());
-  app.use(cors()); // Configure CORS properly for production
+  app.use(
+    cors({
+      origin: "*", // Adjust this for production to the correct origin
+      methods: ["GET", "POST", "PATCH", "DELETE"],
+    })
+  ); // Configure CORS properly for production
 
   // Routes
   app.use("/api/auth", authRoutes);
