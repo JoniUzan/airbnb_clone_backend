@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node",
-      "maxDuration": 10,  
-      "memory": 1024       
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/src/index.ts"  
+      "dest": "/src/index.ts"
     }
   ]
+  
 }
