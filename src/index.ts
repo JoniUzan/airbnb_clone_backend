@@ -18,14 +18,14 @@ const PORT = process.env.PORT || 3000;
 const app: Express = express();
 const server = http.createServer(app);
 
-export const io = new Server(server, {
-  cors: {
-    origin: "*", // Adjust this for production to the correct origin
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-  },
-});
+// export const io = new Server(server, {
+//   cors: {
+//     origin: "*", // Adjust this for production to the correct origin
+//     methods: ["GET", "POST", "PATCH", "DELETE"],
+//   },
+// });
 
-setupSocketIO(io); // Set up Socket.IO
+// setupSocketIO(io); // Set up Socket.IO
 
 async function main() {
   // Connect to database
@@ -46,7 +46,7 @@ async function main() {
   app.use("/api/reservation", reservationRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/images", uploadRoutes);
-  app.use("/api/chat", chatRouter);
+  // app.use("/api/chat", chatRouter);
   app.use("/api/notification", notificationRoutes);
 
   app.get("/", (req, res) => res.json("Express on Vercel"));
