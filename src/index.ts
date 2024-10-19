@@ -34,7 +34,11 @@ async function main() {
   // Middleware
   app.use(express.json());
   app.use(
-    cors()
+    cors({
+      origin: "*", // Adjust this for production to the correct origin
+      methods: ["GET", "POST", "PATCH", "DELETE"],
+      credentials: true,
+    })
   ); // Configure CORS properly for production
 
   // Routes
