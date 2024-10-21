@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoutes = void 0;
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user-controller");
+exports.userRoutes = (0, express_1.Router)();
+exports.userRoutes.get("/getWishlist", user_controller_1.getUserWishlists);
+exports.userRoutes.get("/getWishlistByName", user_controller_1.getWishlistByName);
+exports.userRoutes.post("/addToWishlist", user_controller_1.addToWishlist);
+exports.userRoutes.delete("/removeFromWishlist", user_controller_1.removeFromWishlist);
