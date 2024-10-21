@@ -14,16 +14,20 @@ import notificationRoutes from "./routes/notification-routes";
 import { setupSocketIO } from "./socket"; // Import the Socket.IO setup
 
 const PORT = process.env.PORT || 3000;
-
+const allowedOrigins = [
+  "http://localhost:3000", // for local development
+  "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
+];
 const app: Express = express();
 const server = http.createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust this for production to the correct origin
+    origin: allowedOrigins, // Use the same allowedOrigins array
     methods: ["GET", "POST", "PATCH", "DELETE"],
   },
 });
+
 
 setupSocketIO(io); // Set up Socket.IO
 
@@ -33,12 +37,24 @@ async function main() {
 
   // Middleware
   app.use(express.json());
+ 
+  
   app.use(
     cors({
-      origin: "*", // Adjust this for production to the correct origin
+      origin: (origin, callback) => {
+        // Allow requests with no origin like mobile apps or curl requests
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+          const msg = "The CORS policy for this site does not allow access from the specified origin.";
+          return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+      },
       methods: ["GET", "POST", "PATCH", "DELETE"],
+      credentials: true, // Include credentials if needed (cookies, etc.)
     })
-  ); // Configure CORS properly for production
+  );
+  
 
   // Routes
   app.use("/api/auth", authRoutes);
