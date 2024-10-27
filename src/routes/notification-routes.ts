@@ -9,6 +9,55 @@ import {
 
 const router = Router();
 
+
+/**
+ * @swagger
+ * /api/notification:
+ *   post:
+ *     tags: [Notifications]
+ *     summary: Create notification
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *               - message
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               message:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Notification created successfully
+ *
+ * /api/notification/{userId}:
+ *   get:
+ *     tags: [Notifications]
+ *     summary: Get user notifications
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of notifications
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Notification'
+ */
 // Route to create a new notification
 router.post('/', createUserNotification);
 
