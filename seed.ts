@@ -46,6 +46,15 @@ const seedUsersHomesReservations = async () => {
         wishlists: [],
       },
       {
+        email: "joniuzan33@gmail.com",
+        password: hashedPassword,
+        firstName: "Joni",
+        lastName: "Uzan",
+        birthday: new Date("2003-03-13"),
+        reviews: [],
+        wishlists: [],
+      },
+      {
         email: "jane.smith@example.com",
         password: hashedPassword,
         firstName: "Jane",

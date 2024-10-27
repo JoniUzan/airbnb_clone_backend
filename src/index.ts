@@ -65,7 +65,7 @@ async function main() {
   // app.use("/api/chat", chatRouter);
   app.use("/api/notification", notificationRoutes);
 
-  app.get("/", (req, res) => res.json("Express on Vercel"));
+  app.get("/", (req, res) => res.json("Express on render"));
 
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
