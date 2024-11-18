@@ -17,6 +17,13 @@ import specs from './utils/swagger';
 
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://airbnb-clone-server-rpxv.onrender.com/api/homes/count",
+  "http://localhost:3000", // for local development
+  "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
+];
+
 const app: Express = express();
 const server = http.createServer(app);
 
@@ -25,8 +32,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 export const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust this for production to the correct origin
-    methods: ["GET", "POST", "PATCH"],
+    origin: true, // Use the same allowedOrigins array
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   },
 });
 
@@ -39,7 +46,25 @@ async function main() {
 
   // Middleware
   app.use(express.json());
-  app.use(cors()); // Configure CORS properly for production
+
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin like mobile apps or curl requests
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+          const msg =
+            "The CORS policy for this site does not allow access from the specified origin.";
+          return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+      },  
+      methods: ["GET", "POST", "PATCH", "DELETE"],
+      credentials: true, // Include credentials if needed (cookies, etc.)
+    })
+  );
+
 
   // Routes
   app.use("/api/auth", authRoutes);
@@ -49,9 +74,6 @@ async function main() {
   app.use("/api/images", uploadRoutes);
   app.use("/api/chat", chatRouter);
   app.use('/api/notification', notificationRoutes);
-
-
-  
 
 
   server.listen(PORT,  () => {
