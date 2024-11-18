@@ -25,7 +25,7 @@ const server = http.createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: allowedOrigins, // Use the same allowedOrigins array
+    origin: true, // Use the same allowedOrigins array
     methods: ["GET", "POST", "PATCH", "DELETE"],
   },
 });
