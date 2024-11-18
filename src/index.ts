@@ -50,7 +50,7 @@ async function main() {
           return callback(new Error(msg), false);
         }
         return callback(null, true);
-      },
+      },  
       methods: ["GET", "POST", "PATCH", "DELETE"],
       credentials: true, // Include credentials if needed (cookies, etc.)
     })

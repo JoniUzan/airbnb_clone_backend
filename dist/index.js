@@ -20,6 +20,8 @@ const notification_routes_1 = __importDefault(require("./routes/notification-rou
 const socket_1 = require("./socket"); // Import the Socket.IO setup
 const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
+    "http://localhost:5173",
+    "https://airbnb-clone-server-rpxv.onrender.com/api/homes/count",
     "http://localhost:3000", // for local development
     "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
 ];
@@ -27,7 +29,7 @@ const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
     cors: {
-        origin: allowedOrigins, // Use the same allowedOrigins array
+        origin: true, // Use the same allowedOrigins array
         methods: ["GET", "POST", "PATCH", "DELETE"],
     },
 });
