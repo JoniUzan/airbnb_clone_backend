@@ -62,7 +62,7 @@ async function main() {
   app.use("/api/reservation", reservationRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/images", uploadRoutes);
-  // app.use("/api/chat", chatRouter);
+  app.use("/api/chat", chatRouter);
   app.use("/api/notification", notificationRoutes);
 
   app.get("/", (req, res) => res.json("Express on render"));
