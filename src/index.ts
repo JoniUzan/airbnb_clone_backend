@@ -9,19 +9,26 @@ import { reservationRoutes } from "./routes/reservation-routes";
 import { userRoutes } from "./routes/user-routes";
 import { uploadRoutes } from "./routes/image-route";
 import chatRouter from "./routes/chat-router";
-import notificationRoutes from "./routes/notification-routes";
+import notificationRoutes from './routes/notification-routes';
 // import socketMiddleware from "./middelware/auth-req";
 import { setupSocketIO } from "./socket"; // Import the Socket.IO setup
+import swaggerUi from 'swagger-ui-express';
+import specs from './utils/swagger';
 
 const PORT = process.env.PORT || 3000;
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://airbnb-clone-server-rpxv.onrender.com/api/homes/count",
   "http://localhost:3000", // for local development
   "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
 ];
+
 const app: Express = express();
 const server = http.createServer(app);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 
 export const io = new Server(server, {
   cors: {
@@ -36,8 +43,10 @@ async function main() {
   // Connect to database
   await connectDB();
 
+
   // Middleware
   app.use(express.json());
+
 
   app.use(
     cors({
@@ -56,6 +65,7 @@ async function main() {
     })
   );
 
+
   // Routes
   app.use("/api/auth", authRoutes);
   app.use("/api/homes", homeRoutes);
@@ -63,11 +73,10 @@ async function main() {
   app.use("/api/user", userRoutes);
   app.use("/api/images", uploadRoutes);
   app.use("/api/chat", chatRouter);
-  app.use("/api/notification", notificationRoutes);
+  app.use('/api/notification', notificationRoutes);
 
-  app.get("/", (req, res) => res.json("Express on render"));
 
-  server.listen(PORT, () => {
+  server.listen(PORT,  () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
