@@ -22,12 +22,8 @@ const app: Express = express();
 const server = http.createServer(app);
 
 export const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins, // Use the same allowedOrigins array
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-  },
+  cors: {},
 });
-
 
 setupSocketIO(io); // Set up Socket.IO
 
@@ -37,15 +33,15 @@ async function main() {
 
   // Middleware
   app.use(express.json());
- 
-  
+
   app.use(
     cors({
       origin: (origin, callback) => {
         // Allow requests with no origin like mobile apps or curl requests
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) === -1) {
-          const msg = "The CORS policy for this site does not allow access from the specified origin.";
+          const msg =
+            "The CORS policy for this site does not allow access from the specified origin.";
           return callback(new Error(msg), false);
         }
         return callback(null, true);
@@ -54,7 +50,6 @@ async function main() {
       credentials: true, // Include credentials if needed (cookies, etc.)
     })
   );
-  
 
   // Routes
   app.use("/api/auth", authRoutes);
