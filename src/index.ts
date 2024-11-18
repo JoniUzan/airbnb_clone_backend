@@ -15,7 +15,8 @@ import { setupSocketIO } from "./socket"; // Import the Socket.IO setup
 
 const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
-  "http://localhost:5173/",
+  "http://localhost:5173",
+  "https://airbnb-clone-server-rpxv.onrender.com/api/homes/count",
   "http://localhost:3000", // for local development
   "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
 ];
