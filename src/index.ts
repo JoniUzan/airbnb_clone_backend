@@ -15,6 +15,7 @@ import { setupSocketIO } from "./socket"; // Import the Socket.IO setup
 
 const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
+  "http://localhost:5173/",
   "http://localhost:3000", // for local development
   "https://airbnb-clone-frontend-self.vercel.app", // for Vercel production
 ];
@@ -22,7 +23,10 @@ const app: Express = express();
 const server = http.createServer(app);
 
 export const io = new Server(server, {
-  cors: {},
+  cors: {
+    origin: allowedOrigins, // Use the same allowedOrigins array
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+  },
 });
 
 setupSocketIO(io); // Set up Socket.IO
